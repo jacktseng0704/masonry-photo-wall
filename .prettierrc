@@ -1,0 +1,10 @@
+{
+  "semi": false,
+  "printWidth": 120,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "jsxSingleQuote": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["cn", "cva"]
+}
