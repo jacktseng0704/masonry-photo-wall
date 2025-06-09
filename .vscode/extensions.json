@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    // Linting / Formatting
+    "esbenp.prettier-vscode",
+
+    // For inspecting color in the editor
+    "kamikillerto.vscode-colorize"
+  ]
+}

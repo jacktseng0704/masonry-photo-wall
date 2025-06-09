@@ -1,0 +1,28 @@
+{
+  "cSpell.words": ["tailwindcss"],
+
+  // Formatting using Prettier by default for all languages
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  },
+
+  // For inspecting colors
+  "colorize.languages": [
+    "css",
+    "sass",
+    "scss",
+    "less",
+    "postcss",
+    "sss",
+    "stylus",
+    "xml",
+    "svg",
+    "javascript",
+    "typescript"
+  ],
+
+  // Tailwind configurations
+  "tailwindCSS.classAttributes": ["class", "className", ".*ClassName", "style", ".*Styles*"],
+  "tailwindCSS.classFunctions": ["cva", "cx"]
+}
