@@ -1,34 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Starter Template
 
-## Getting Started
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.3-black.svg)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0-blue.svg)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1-38B2AC.svg)](https://tailwindcss.com/)
+[![ESLint](https://img.shields.io/badge/ESLint-9-4B32C3.svg)](https://eslint.org/)
+[![Prettier](https://img.shields.io/badge/Prettier-3.5-F7B93E.svg)](https://prettier.io/)
+[![pnpm](https://img.shields.io/badge/pnpm-9.15-orange.svg)](https://pnpm.io/)
 
-First, run the development server:
+## 🚀 Overview
+
+A modern, production-ready Next.js starter template with the latest frontend technologies and best practices. This template is designed to accelerate development while maintaining high code quality standards and developer experience.
+
+## ✨ Features
+
+- **Next.js 15.3** with App Router and Server Components
+- **React 19** with latest features and improvements
+- **TypeScript 5** for type safety and better developer experience
+- **Tailwind CSS 4** for utility-first styling with the latest features
+- **ESLint 9** with Next.js configuration for code quality
+- **Prettier** with Tailwind plugin for consistent code formatting
+- **Husky & lint-staged** for pre-commit hooks
+- **Conventional commits** with commitlint for standardized commit messages
+- **pnpm** for fast, disk space efficient package management
+- **Turbopack** enabled for faster development experience
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **Framework**: Next.js 15.3 (App Router)
+- **UI Library**: React 19
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript 5
+
+### Development Tools
+
+- **Package Manager**: pnpm
+- **Linting**: ESLint 9 with Next.js configuration
+- **Formatting**: Prettier with Tailwind plugin
+- **Git Hooks**: Husky
+- **Commit Standards**: Commitlint with Conventional Commits
+
+## 📋 Getting Started
+
+### Prerequisites
+
+- Node.js 18.17 or later
+- pnpm 9.15 or later
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Clone the repository
+git clone https://github.com/jacktseng0704/nextjs-starter-template.git
+cd nextjs-starter-template
+
+# Install dependencies
+pnpm install
+```
+
+### Development
+
+```bash
+# Start development server with Turbopack
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-## Learn More
+```bash
+# Create production build
+pnpm build
 
-To learn more about Next.js, take a look at the following resources:
+# Start production server
+pnpm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Code Quality
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This template enforces high code quality standards through:
 
-## Deploy on Vercel
+- **TypeScript** for static type checking
+- **ESLint** for code quality rules
+- **Prettier** for consistent formatting
+- **Husky** for pre-commit hooks that run:
+  - Linting with automatic fixes when possible
+  - Code formatting
+  - Commit message validation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 Commit Convention
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification for creating an explicit commit history. Commit messages are enforced using commitlint.
+
+Examples of commit messages:
+
+- `feat(auth): add login component`
+- `fix(api): resolve user data fetching issue`
+- `docs: update README with new instructions`
+- `style: format code with prettier`
+- `refactor(components): improve button reusability`
+
+## 🚀 Deployment
+
+This project is optimized for deployment on [Vercel](https://vercel.com), the platform from the creators of Next.js.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fnextjs-starter-template)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
