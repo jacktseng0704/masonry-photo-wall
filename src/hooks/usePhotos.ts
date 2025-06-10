@@ -13,6 +13,7 @@ export function usePhotos() {
   })
 
   const photos = data?.pages.flat() ?? []
+
   const loadMore = () => {
     if (!isFetchingNextPage) {
       fetchNextPage()

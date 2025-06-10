@@ -1,11 +1,23 @@
 'use client'
+import { useSearchParams } from 'next/navigation'
+import { useMemo } from 'react'
 
 import { usePhotos } from '@/hooks/usePhotos'
 
 import { MasonryGrid } from './MasonryGrid'
 
 export function PhotoGallery() {
+  const searchParams = useSearchParams()
+  const authorFilter = searchParams.get('author')
+
   const { photos, loadMore, hasMore, isLoading, isLoadingMore, isError, error } = usePhotos()
+
+  // derived state
+  const filteredPhotos = useMemo(
+    () =>
+      authorFilter ? photos.filter(photo => photo.author.toLowerCase().includes(authorFilter.toLowerCase())) : photos,
+    [photos, authorFilter],
+  )
 
   if (isError) {
     return (
@@ -25,5 +37,5 @@ export function PhotoGallery() {
     )
   }
 
-  return <MasonryGrid photos={photos} onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoadingMore} />
+  return <MasonryGrid photos={filteredPhotos} onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoadingMore} />
 }
