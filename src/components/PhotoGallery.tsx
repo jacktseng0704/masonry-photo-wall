@@ -1,17 +1,15 @@
 'use client'
 import dynamic from 'next/dynamic'
-import { useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 
+import { Input } from '@/components/ui/input'
 import { usePhotos } from '@/hooks/usePhotos'
 
 const MasonryGrid = dynamic(() => import('@/components/MasonryGrid').then(mod => mod.MasonryGrid), { ssr: false })
 
 export function PhotoGallery() {
-  const searchParams = useSearchParams()
-  const authorFilter = searchParams.get('author')
-
-  const { photos, loadMore, hasMore, isLoading, isLoadingMore, isError, error } = usePhotos()
+  const { photos, loadMore, hasMore, isLoading, isLoadingMore, isError, error, authorFilter, setAuthorFilter } =
+    usePhotos()
 
   // derived state
   const filteredPhotos = useMemo(
@@ -30,13 +28,35 @@ export function PhotoGallery() {
 
   if (isLoading) {
     return (
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <div key={index} className='aspect-[3/4] animate-pulse rounded-lg bg-gray-200' />
-        ))}
-      </div>
+      <>
+        <div className='mx-auto mt-8 max-w-xl'>
+          <div className='h-12 animate-pulse rounded-md bg-gray-200 md:h-14' />
+        </div>
+        <div className='mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className='aspect-[3/4] animate-pulse rounded-lg bg-gray-200' />
+          ))}
+        </div>
+      </>
     )
   }
 
-  return <MasonryGrid photos={filteredPhotos} onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoadingMore} />
+  return (
+    <>
+      <div className='mx-auto max-w-xl'>
+        <Input
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              setAuthorFilter((e.target as HTMLInputElement).value)
+            }
+          }}
+          className='h-12 md:h-14'
+          placeholder='Filter by author...'
+        />
+      </div>
+      <div className='mt-8'>
+        <MasonryGrid photos={filteredPhotos} onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoadingMore} />
+      </div>
+    </>
+  )
 }
