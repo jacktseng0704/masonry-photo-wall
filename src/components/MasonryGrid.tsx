@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { Masonry } from 'masonic'
+import { useEffect, useRef } from 'react'
 
 import type { PhotoList } from '@/validations/photo'
 
@@ -14,69 +15,39 @@ type MasonryGridProps = {
 }
 
 export function MasonryGrid({ photos, onLoadMore, hasMore = false, isLoading = false }: MasonryGridProps) {
-  const [columns, setColumns] = useState(getInitialColumns())
-  const observerRef = useRef<IntersectionObserver | null>(null)
-  const loadMoreRef = useRef<HTMLDivElement>(null)
+  // refs
+  const targetRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    function updateColumns() {
-      setColumns(getInitialColumns())
-    }
+    if (!hasMore || isLoading || !onLoadMore || !targetRef.current) return
 
-    window.addEventListener('resize', updateColumns)
-    return () => window.removeEventListener('resize', updateColumns)
-  }, [])
+    const observer = new IntersectionObserver(entries => entries[0].isIntersecting && onLoadMore(), { threshold: 0.1 })
 
-  useEffect(() => {
-    if (!hasMore || isLoading || !onLoadMore) return
-
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          onLoadMore()
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current)
-    }
-
-    observerRef.current = observer
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect()
-      }
-    }
+    observer.observe(targetRef.current)
+    return () => observer.disconnect()
   }, [hasMore, isLoading, onLoadMore])
 
-  function getInitialColumns() {
-    if (typeof window === 'undefined') return 3
-    if (window.innerWidth < 640) return 1
-    if (window.innerWidth < 1024) return 2
-    return 3
-  }
-
-  const photoColumns = Array.from({ length: columns }, (_, i) => {
-    return photos.filter((_, index) => index % columns === i)
-  })
+  // const getColumns = (width: number) => {
+  //   if (width < 640) return 1
+  //   if (width < 1024) return 2
+  //   if (width < 1280) return 3
+  //   if (width < 1536) return 4
+  //   return 5
+  // }
 
   return (
     <div className='relative w-full'>
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-        {photoColumns.map((columnPhotos, columnIndex) => (
-          <div key={columnIndex} className='flex flex-col gap-4'>
-            {columnPhotos.map(photo => (
-              <PhotoCard key={photo.id} photo={photo} />
-            ))}
-          </div>
-        ))}
-      </div>
+      <Masonry
+        items={photos}
+        columnGutter={16} // gap-4 in tailwind
+        columnWidth={240} // reasonable width for photo cards
+        render={({ data }) => <PhotoCard photo={data} />}
+        overscanBy={5}
+        // columnCount={getColumns} // responsive columns
+      />
 
       {(hasMore || isLoading) && (
-        <div ref={loadMoreRef} className='mt-8 flex items-center justify-center'>
+        <div ref={targetRef} className='mt-8 flex items-center justify-center'>
           {isLoading ? (
             <div className='h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600' />
           ) : null}

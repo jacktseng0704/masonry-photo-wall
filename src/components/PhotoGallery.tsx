@@ -1,10 +1,11 @@
 'use client'
+import dynamic from 'next/dynamic'
 import { useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 
 import { usePhotos } from '@/hooks/usePhotos'
 
-import { MasonryGrid } from './MasonryGrid'
+const MasonryGrid = dynamic(() => import('@/components/MasonryGrid').then(mod => mod.MasonryGrid), { ssr: false })
 
 export function PhotoGallery() {
   const searchParams = useSearchParams()
