@@ -44,15 +44,16 @@ export function PhotoGallery() {
   return (
     <>
       <div className='mx-auto max-w-xl'>
-        <Input
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              setAuthorFilter((e.target as HTMLInputElement).value)
-            }
+        <form
+          onSubmit={e => {
+            e.preventDefault()
+            const form = e.target as HTMLFormElement
+            const input = form.elements.namedItem('author') as HTMLInputElement
+            setAuthorFilter(input.value)
           }}
-          className='h-12 md:h-14'
-          placeholder='Filter by author...'
-        />
+        >
+          <Input name='author' className='h-12 md:h-14' placeholder='Filter by author...' defaultValue={authorFilter} />
+        </form>
       </div>
       <div className='mt-8'>
         <MasonryGrid photos={filteredPhotos} onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoadingMore} />

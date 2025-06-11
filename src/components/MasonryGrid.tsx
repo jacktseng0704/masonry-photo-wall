@@ -3,7 +3,7 @@
 import { Masonry } from 'masonic'
 import { useEffect, useRef } from 'react'
 
-import type { PhotoList } from '@/validations/photo'
+import type { Photo, PhotoList } from '@/validations/photo'
 
 import { PhotoCard } from './PhotoCard'
 
@@ -27,24 +27,9 @@ export function MasonryGrid({ photos, onLoadMore, hasMore = false, isLoading = f
     return () => observer.disconnect()
   }, [hasMore, isLoading, onLoadMore])
 
-  // const getColumns = (width: number) => {
-  //   if (width < 640) return 1
-  //   if (width < 1024) return 2
-  //   if (width < 1280) return 3
-  //   if (width < 1536) return 4
-  //   return 5
-  // }
-
   return (
     <div className='relative w-full'>
-      <Masonry
-        items={photos}
-        columnGutter={16} // gap-4 in tailwind
-        columnWidth={240} // reasonable width for photo cards
-        render={({ data }) => <PhotoCard photo={data} />}
-        overscanBy={5}
-        // columnCount={getColumns} // responsive columns
-      />
+      <Masonry items={photos} columnGutter={16} render={MasonryCard} overscanBy={5} />
 
       {(hasMore || isLoading) && (
         <div ref={targetRef} className='mt-8 flex items-center justify-center'>
@@ -55,4 +40,12 @@ export function MasonryGrid({ photos, onLoadMore, hasMore = false, isLoading = f
       )}
     </div>
   )
+}
+
+type MasonryCardProps = {
+  data: Photo
+}
+
+function MasonryCard({ data }: MasonryCardProps) {
+  return <PhotoCard photo={data} />
 }

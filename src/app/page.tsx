@@ -6,12 +6,14 @@ import { PhotoGallery } from '@/components/PhotoGallery'
 // import { Input } from '@/components/ui/input'
 
 type Props = {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default async function HomePage({ searchParams }: Props) {
+  const authorQuery = (await searchParams).author || ''
+  const initialAuthor = typeof authorQuery === 'string' ? authorQuery : ''
+
   const queryClient = new QueryClient()
-  const initialAuthor = typeof searchParams.author === 'string' ? searchParams.author : ''
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: ['photos', initialAuthor],
