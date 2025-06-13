@@ -9,7 +9,10 @@
 [![Prettier](https://img.shields.io/badge/Prettier-3.5-F7B93E.svg)](https://prettier.io/)
 [![pnpm](https://img.shields.io/badge/pnpm-9.15-orange.svg)](https://pnpm.io/)
 
-**Live Demo:** [Link to your deployed application] (e.g., Vercel, Netlify)
+**Live Demo:**
+
+Deployed on vercel
+https://masonry-photo-wall-221d.vercel.app/
 
 ## 🌟 Project Overview
 
