@@ -1,15 +1,19 @@
 'use client'
 import dynamic from 'next/dynamic'
-import { useMemo } from 'react'
+import { useMemo, useId } from 'react'
 
 import { Input } from '@/components/ui/input'
 import { usePhotos } from '@/hooks/usePhotos'
+
+import MasonryGridSkeleton from './MasonryGridSkeleton'
 
 const MasonryGrid = dynamic(() => import('@/components/MasonryGrid').then(mod => mod.MasonryGrid), { ssr: false })
 
 export function PhotoGallery() {
   const { photos, loadMore, hasMore, isLoading, isLoadingMore, isError, error, authorFilter, setAuthorFilter } =
     usePhotos()
+
+  const authorInputId = useId()
 
   // derived state
   const filteredPhotos = useMemo(
@@ -20,8 +24,8 @@ export function PhotoGallery() {
 
   if (isError) {
     return (
-      <div className='flex min-h-[50vh] items-center justify-center'>
-        <p className='text-center text-red-600'>Error loading photos: {error?.message}</p>
+      <div className='flex min-h-[50vh] items-center justify-center' role='alert' aria-live='assertive'>
+        <p className='text-center text-red-600'>Error loading photos: {error?.message || 'Unknown error occurred'}</p>
       </div>
     )
   }
@@ -29,13 +33,13 @@ export function PhotoGallery() {
   if (isLoading) {
     return (
       <>
-        <div className='mx-auto mt-8 max-w-xl'>
-          <div className='h-12 animate-pulse rounded-md bg-gray-200 md:h-14' />
+        <div className='mx-auto my-8 max-w-xl'>
+          <div className='h-12 animate-pulse rounded-md bg-gray-200 md:h-14' aria-hidden='true' />
         </div>
-        <div className='mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-          {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className='aspect-[3/4] animate-pulse rounded-lg bg-gray-200' />
-          ))}
+
+        <div aria-label='Loading photos' role='status'>
+          <MasonryGridSkeleton />
+          <span className='sr-only'>Loading photos...</span>
         </div>
       </>
     )
@@ -51,12 +55,31 @@ export function PhotoGallery() {
             const input = form.elements.namedItem('author') as HTMLInputElement
             setAuthorFilter(input.value)
           }}
+          role='search'
+          aria-label='Filter photos by author'
         >
-          <Input name='author' className='h-12 md:h-14' placeholder='Filter by author...' defaultValue={authorFilter} />
+          <label htmlFor={authorInputId} className='sr-only'>
+            Filter by author
+          </label>
+          <Input
+            id={authorInputId}
+            name='author'
+            className='h-12 md:h-14'
+            placeholder='Filter by author...'
+            defaultValue={authorFilter}
+            aria-label='Filter by author'
+          />
         </form>
       </div>
+
       <div className='mt-8'>
-        <MasonryGrid photos={filteredPhotos} onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoadingMore} />
+        {filteredPhotos.length > 0 ? (
+          <MasonryGrid photos={filteredPhotos} onLoadMore={loadMore} hasMore={hasMore} isLoading={isLoadingMore} />
+        ) : (
+          <p className='py-12 text-center text-gray-500' role='status'>
+            No photos found matching &ldquo;{authorFilter}&rdquo;
+          </p>
+        )}
       </div>
     </>
   )
